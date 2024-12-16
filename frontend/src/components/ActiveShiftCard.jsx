@@ -18,4 +18,3 @@ const ActiveShiftCard = ({ activeShift, handlePauseResume, handleEndShift }) => 
 };
 
 export default ActiveShiftCard;
-t
