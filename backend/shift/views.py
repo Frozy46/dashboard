@@ -59,3 +59,23 @@ class EndShiftView(APIView):
             return Response({'status': 'Shift ended successfully.'})
         except Shift.DoesNotExist:
             return Response({'error': 'Shift not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UpdateShiftTime(APIView):
+    def post(self, request):
+        time_left = request.data.get('timeLeft')
+        if time_left is None:
+            return Response({'error': 'timeLeft is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            shift = Shift.objects.filter(is_active=True).order_by('-start_time').first()
+            if not shift:
+                return Response({'error': 'No active shift found.'}, status=status.HTTP_404_NOT_FOUND)
+
+            if shift.remaining_time != time_left:
+                shift.remaining_time = time_left
+                shift.save()
+
+            return Response({'status': 'Shift updated successfully.'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': f'Unexpected error: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

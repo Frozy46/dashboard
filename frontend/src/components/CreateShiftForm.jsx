@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { Form, Input, Button, Switch, InputNumber, TimePicker, Select } from "antd";
 import axios from "axios";
+import api from "../api";
 const { Option } = Select;
 
 
@@ -13,7 +14,7 @@ const CreateShiftForm = ({ onFinish, isOpenEnded, setIsOpenEnded }) => {
         // Fetch products on component mount
         const fetchProducts = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/shift/products/");
+                const response = await api.get("/shift/products/");
                 setProducts(response.data);
             } catch (error) {
                 console.error("Error fetching products:", error);
@@ -29,7 +30,7 @@ const CreateShiftForm = ({ onFinish, isOpenEnded, setIsOpenEnded }) => {
 
         // Fetch volumes for the selected product
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/shift/products/${productId}/volumes`);
+            const response = await api.get(`/shift/products/${productId}/volumes`);
             setVolumes(response.data);
         } catch (error) {
             console.error("Error fetching product volumes:", error);

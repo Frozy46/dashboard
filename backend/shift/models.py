@@ -36,6 +36,7 @@ class Shift(models.Model):
     is_paused = models.BooleanField(default=False)
 
     countdown_time = models.PositiveIntegerField(null=True, blank=True)  # В секундах
+    remaining_time = models.PositiveIntegerField(null=True, blank=True)  # В секундах
     open_ended = models.BooleanField(default=False)  # True: таймер, False: отсчет
 
     @property
